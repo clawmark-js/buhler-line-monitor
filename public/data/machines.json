@@ -1,0 +1,34 @@
+[
+  {
+    "id": "scale",
+    "name": "Scale",
+    "shortName": "Scale",
+    "icon": "system_update_alt",
+    "state": "running",
+    "order": 1
+  },
+  {
+    "id": "bag-attach",
+    "name": "Bag Attach",
+    "shortName": "Attacher",
+    "icon": "chrome_reader_mode",
+    "state": "alarm",
+    "order": 2
+  },
+  {
+    "id": "packer",
+    "name": "Packer",
+    "shortName": "Packer",
+    "icon": "call_to_action",
+    "state": "running",
+    "order": 3
+  },
+  {
+    "id": "bag-closer",
+    "name": "Bag Closer",
+    "shortName": "Closer",
+    "icon": "grid_on",
+    "state": "warning",
+    "order": 4
+  }
+]
