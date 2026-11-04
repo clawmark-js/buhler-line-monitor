@@ -1,75 +1,73 @@
-import { computed, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { MachineStore } from '../../../core/machine-store';
-import { Machine } from '../../../core/models/machine';
+import { provideRouter, Router } from '@angular/router';
+import { createFakeMachineStore } from '../../../../testing/fake-machine-store';
 import { MachineNav } from './machine-nav';
 
-const MACHINES: Machine[] = [
-  { id: 'scale', name: 'Scale', shortName: 'Scale', icon: 'a', state: 'running', order: 1 },
-  {
-    id: 'bag-attach',
-    name: 'Bag Attach',
-    shortName: 'Attacher',
-    icon: 'b',
-    state: 'alarm',
-    order: 2,
-  },
-  {
-    id: 'bag-closer',
-    name: 'Bag Closer',
-    shortName: 'Closer',
-    icon: 'c',
-    state: 'warning',
-    order: 3,
-  },
-];
+@Component({ template: '' })
+class Blank {}
 
 describe('MachineNav', () => {
-  const machines = signal<Machine[]>(MACHINES);
+  let fake: ReturnType<typeof createFakeMachineStore>;
 
   beforeEach(() => {
-    machines.set(MACHINES);
+    fake = createFakeMachineStore();
     TestBed.configureTestingModule({
-      providers: [{ provide: MachineStore, useValue: { machines: computed(() => machines()) } }],
+      providers: [fake.provider, provideRouter([{ path: 'machines/:id', component: Blank }])],
     });
   });
 
-  async function render(): Promise<HTMLElement> {
+  async function render() {
     const fixture = TestBed.createComponent(MachineNav);
     await fixture.whenStable();
-    return fixture.nativeElement as HTMLElement;
+    return fixture;
   }
 
-  function items(host: HTMLElement): HTMLElement[] {
-    return Array.from(host.querySelectorAll<HTMLElement>('li'));
+  function links(host: HTMLElement): HTMLAnchorElement[] {
+    return Array.from(host.querySelectorAll<HTMLAnchorElement>('li > a'));
   }
 
   it('is a labelled navigation landmark', async () => {
-    expect((await render()).querySelector('nav')?.getAttribute('aria-label')).toBe('Machines');
+    const host = (await render()).nativeElement as HTMLElement;
+    expect(host.querySelector('nav')?.getAttribute('aria-label')).toBe('Machines');
   });
 
-  it('lists the machines in store order by short name', async () => {
-    const names = items(await render()).map((li) => li.querySelector('.name')?.textContent?.trim());
-    expect(names).toEqual(['Scale', 'Attacher', 'Closer']);
+  it('links every machine to its detail, in store order', async () => {
+    const hrefs = links((await render()).nativeElement).map((a) => a.getAttribute('href'));
+    expect(hrefs).toEqual(['/machines/scale', '/machines/bag-attach', '/machines/bag-closer']);
   });
 
-  it('marks every item with its state for styling', async () => {
-    const states = items(await render()).map((li) => li.dataset['state']);
-    expect(states).toEqual(['running', 'alarm', 'warning']);
+  it('shows the short name and marks the state for styling', async () => {
+    const [, attacher] = links((await render()).nativeElement);
+    expect(attacher.querySelector('.name')?.textContent?.trim()).toBe('Attacher');
+    expect(attacher.dataset['state']).toBe('alarm');
   });
 
-  it('exposes name and state to assistive technologies', async () => {
-    const [scale] = items(await render());
-    expect(scale.textContent).toContain('Scale');
-    expect(scale.querySelector('[role="img"]')?.getAttribute('aria-label')).toBe('Running');
+  it('names each link by machine and state, with the badge hidden', async () => {
+    const [scale] = links((await render()).nativeElement);
+    expect(scale.getAttribute('aria-label')).toBe('Scale – Running');
+    expect(scale.querySelector('app-machine-state-badge')?.getAttribute('aria-hidden')).toBe(
+      'true',
+    );
+  });
+
+  it('marks the machine of the current route as selected', async () => {
+    const fixture = await render();
+    await TestBed.inject(Router).navigateByUrl('/machines/bag-attach');
+    await fixture.whenStable();
+    const [scale, attacher] = links(fixture.nativeElement);
+    expect(attacher.classList).toContain('selected');
+    expect(attacher.getAttribute('aria-current')).toBe('page');
+    expect(scale.classList).not.toContain('selected');
+    expect(scale.hasAttribute('aria-current')).toBe(false);
   });
 
   it('reflects state changes from the store', async () => {
-    const fixture = TestBed.createComponent(MachineNav);
+    const fixture = await render();
+    fake.setState('scale', 'alarm');
     await fixture.whenStable();
-    machines.update((list) => list.map((m) => (m.id === 'scale' ? { ...m, state: 'alarm' } : m)));
-    await fixture.whenStable();
-    const [scale] = items(fixture.nativeElement as HTMLElement);
+    const [scale] = links(fixture.nativeElement);
     expect(scale.dataset['state']).toBe('alarm');
+    expect(scale.getAttribute('aria-label')).toBe('Scale – Alarm');
   });
 });

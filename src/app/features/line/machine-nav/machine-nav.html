@@ -1,9 +1,19 @@
 <nav class="nav" aria-label="Machines">
   <ul class="list">
     @for (machine of machines(); track machine.id) {
-      <li class="item" [attr.data-state]="machine.state">
-        <span class="name">{{ machine.shortName }}</span>
-        <app-machine-state-badge class="badge" [state]="machine.state" />
+      <li class="entry">
+        <a
+          class="item"
+          [routerLink]="['/machines', machine.id]"
+          routerLinkActive="selected"
+          ariaCurrentWhenActive="page"
+          [attr.aria-label]="label(machine)"
+          [attr.data-state]="machine.state"
+        >
+          <span class="name">{{ machine.shortName }}</span>
+          <!-- The link's aria-label already names the state. -->
+          <app-machine-state-badge class="badge" [state]="machine.state" aria-hidden="true" />
+        </a>
       </li>
     }
   </ul>

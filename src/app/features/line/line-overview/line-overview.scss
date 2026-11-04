@@ -28,13 +28,21 @@
 
 .step {
   display: flex;
+  flex: none;
   align-items: center;
 
   // Connector to the previous machine.
   & + &::before {
     content: '';
+    flex: none;
     width: var(--connector-length);
     height: var(--connector-width);
     background: var(--color-connector);
   }
+}
+
+.tile-link {
+  display: flex;
+  color: inherit;
+  text-decoration: none;
 }

@@ -1,0 +1,22 @@
+@if (machine(); as machine) {
+  <section class="detail" aria-labelledby="machine-detail-title">
+    <header class="head" [attr.data-state]="machine.state">
+      <app-icon class="machine-icon" [name]="machine.icon" />
+      <h2 id="machine-detail-title" class="title">{{ machine.name }}</h2>
+      <span class="state">
+        <app-machine-state-badge [state]="machine.state" aria-hidden="true" />
+        <span class="state-label">{{ stateLabel() }}</span>
+      </span>
+      <a class="close" routerLink="/" aria-label="Close detail">
+        <app-icon name="close" />
+      </a>
+    </header>
+
+    <dl class="facts">
+      <div class="fact">
+        <dt>Short name</dt>
+        <dd>{{ machine.shortName }}</dd>
+      </div>
+    </dl>
+  </section>
+}

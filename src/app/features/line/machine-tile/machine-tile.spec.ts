@@ -2,17 +2,18 @@ import { TestBed } from '@angular/core/testing';
 import { Machine } from '../../../core/models/machine';
 import { MachineTile } from './machine-tile';
 
-const PACKER: Machine = {
-  id: 'packer',
-  name: 'Packer',
-  shortName: 'Packer',
-  icon: 'call_to_action',
+// Name and short name differ so the test notices if the wrong one is rendered.
+const ATTACHER: Machine = {
+  id: 'bag-attach',
+  name: 'Bag Attach',
+  shortName: 'Attacher',
+  icon: 'chrome_reader_mode',
   state: 'warning',
-  order: 3,
+  order: 2,
 };
 
 describe('MachineTile', () => {
-  async function render(machine: Machine = PACKER): Promise<HTMLElement> {
+  async function render(machine: Machine = ATTACHER): Promise<HTMLElement> {
     const fixture = TestBed.createComponent(MachineTile);
     fixture.componentRef.setInput('machine', machine);
     await fixture.whenStable();
@@ -21,8 +22,18 @@ describe('MachineTile', () => {
 
   it('shows the machine icon and short name', async () => {
     const host = await render();
-    expect(host.querySelector('.machine-icon')?.textContent?.trim()).toBe('call_to_action');
-    expect(host.querySelector('.name')?.textContent?.trim()).toBe('Packer');
+    expect(host.querySelector('.machine-icon')?.textContent?.trim()).toBe('chrome_reader_mode');
+    expect(host.querySelector('.name')?.textContent?.trim()).toBe('Attacher');
+    expect(host.textContent).not.toContain('Bag Attach');
+  });
+
+  it('announces the name before the state', async () => {
+    const host = await render();
+    const name = host.querySelector('.name');
+    const badge = host.querySelector('[role="img"]');
+    expect(name && badge && name.compareDocumentPosition(badge)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
   });
 
   it('marks itself with the machine state for styling', async () => {
