@@ -1,0 +1,10 @@
+<nav class="nav" aria-label="Machines">
+  <ul class="list">
+    @for (machine of machines(); track machine.id) {
+      <li class="item" [attr.data-state]="machine.state">
+        <span class="name">{{ machine.shortName }}</span>
+        <app-machine-state-badge class="badge" [state]="machine.state" />
+      </li>
+    }
+  </ul>
+</nav>

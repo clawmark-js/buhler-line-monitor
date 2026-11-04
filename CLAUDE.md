@@ -16,10 +16,10 @@ follow it unless `PLAN.md` says otherwise.
   change during the project). Work on one step at a time and do not start the next one unless
   asked.
 - At the end of each step: run `npm run lint`, `npm test -- --watch=false` and `npm run build`,
-  fix any failures, then summarize the changes. Use the commit message from `PLAN.md`. Do not
-  commit or push unless asked.
-- Commit messages follow Conventional Commits (`feat:`, `fix:`, `test:`, `chore:`, `docs:`,
-  `refactor:`, `style:`, `ci:`).
+  fix any failures, then summarize the changes and suggest a commit message (the one from
+  `PLAN.md` fits). Do not commit or push unless asked.
+- Commits are made by the developer, who chooses the message; Conventional Commits are preferred
+  but not required. Do not flag commit messages in reviews.
 - Keep changes scoped to the current step. No speculative features or unnecessary dependencies.
 - When unsure about a design decision, ask instead of guessing.
 
@@ -34,7 +34,8 @@ follow it unless `PLAN.md` says otherwise.
 - `inject()` instead of constructor injection.
 - Strict TypeScript, no `any`. Domain types live in `src/app/core/models`.
 - SCSS. Colors, spacing and sizes are CSS custom properties defined in `src/styles/_tokens.scss`.
-  No UI component library.
+  State colors (background, text, icon) are defined once in `src/styles/_machine-state.scss`;
+  every view of a machine uses its `colors` mixin. No UI component library.
 - Icons: Material Symbols Outlined (Google Fonts), rendered through the shared `Icon` component
   (`app-icon`). The font link in `src/index.html` downloads only the icons listed in `icon_names`;
   add every new icon there (alphabetical order) or it renders as plain text.

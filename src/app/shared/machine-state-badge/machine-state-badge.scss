@@ -1,0 +1,5 @@
+:host {
+  display: inline-flex;
+  // Set by the surrounding element through the machine-state `colors` mixin.
+  color: var(--state-icon, currentColor);
+}

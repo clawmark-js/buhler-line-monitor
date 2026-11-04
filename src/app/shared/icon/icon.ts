@@ -11,8 +11,11 @@ import { Component, input } from '@angular/core';
   host: {
     class: 'material-symbols-outlined',
     'aria-hidden': 'true',
+    '[class.filled]': 'filled()',
   },
 })
 export class Icon {
   readonly name = input.required<string>();
+  /** Use the filled variant of the symbol. */
+  readonly filled = input(false);
 }
