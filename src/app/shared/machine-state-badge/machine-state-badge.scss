@@ -1,0 +1,8 @@
+:host {
+  display: inline-flex;
+  color: var(--color-text-inverse);
+}
+
+:host([data-state='running']) {
+  color: var(--color-running);
+}

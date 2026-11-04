@@ -6,9 +6,11 @@
       <app-icon name="schedule" />
       <app-clock />
     </span>
-    <span class="info-item">
-      <app-icon name="account_circle" />
-      <span>{{ userName }}</span>
-    </span>
+    @if (user(); as user) {
+      <span class="info-item">
+        <app-icon name="account_circle" />
+        <span>{{ user.name }}</span>
+      </span>
+    }
   </div>
 </header>

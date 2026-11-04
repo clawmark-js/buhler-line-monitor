@@ -1,0 +1,40 @@
+.nav {
+  background: var(--color-surface);
+}
+
+.list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--nav-item-width);
+  height: var(--nav-height);
+  font-size: var(--font-size-large);
+  font-weight: bold;
+  color: var(--color-text);
+
+  &[data-state='alarm'] {
+    background: var(--color-alarm);
+    color: var(--color-text-inverse);
+  }
+
+  &[data-state='warning'] {
+    background: var(--color-warning);
+    color: var(--color-text-inverse);
+  }
+}
+
+.badge {
+  position: absolute;
+  top: var(--space-1);
+  right: var(--space-1);
+}

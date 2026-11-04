@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { UserStore } from '../../core/user-store';
 import { Clock } from '../../shared/clock/clock';
 import { Icon } from '../../shared/icon/icon';
 
@@ -9,5 +10,5 @@ import { Icon } from '../../shared/icon/icon';
   styleUrl: './header.scss',
 })
 export class Header {
-  protected readonly userName = 'Operator';
+  protected readonly user = inject(UserStore).user;
 }
