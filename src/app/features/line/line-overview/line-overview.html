@@ -1,0 +1,9 @@
+<section class="overview" aria-label="Production line">
+  <ol class="line">
+    @for (machine of machines(); track machine.id) {
+      <li class="step">
+        <app-machine-tile [machine]="machine" />
+      </li>
+    }
+  </ol>
+</section>
