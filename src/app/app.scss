@@ -1,0 +1,12 @@
+// Full-height column: header and navigation on top, routed content fills the rest.
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}

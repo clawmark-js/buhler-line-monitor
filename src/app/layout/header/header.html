@@ -1,16 +1,18 @@
 <header class="header">
-  <img class="logo" src="buhler-logo.svg" alt="Bühler" />
+  <div class="content">
+    <img class="logo" src="buhler-logo.svg" alt="Bühler" />
 
-  <div class="info">
-    <span class="info-item">
-      <app-icon name="schedule" />
-      <app-clock />
-    </span>
-    @if (user(); as user) {
+    <div class="info">
       <span class="info-item">
-        <app-icon name="account_circle" />
-        <span>{{ user.name }}</span>
+        <app-icon name="schedule" />
+        <app-clock />
       </span>
-    }
+      @if (user(); as user) {
+        <span class="info-item">
+          <app-icon name="account_circle" />
+          <span>{{ user.name }}</span>
+        </span>
+      }
+    </div>
   </div>
 </header>

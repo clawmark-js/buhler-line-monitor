@@ -1,0 +1,40 @@
+:host {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+// Scroll container: on narrow screens the line scrolls sideways instead of wrapping, so the
+// sequence of machines stays readable.
+.overview {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  // Without this the flex item grows to its content and the whole page scrolls instead.
+  min-width: 0;
+  overflow-x: auto;
+  padding: var(--space-4);
+}
+
+// `margin-inline: auto` centers the line while it fits and keeps its start reachable when it
+// overflows (unlike `justify-content: center`).
+.line {
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+
+  // Connector to the previous machine.
+  & + &::before {
+    content: '';
+    width: var(--connector-length);
+    height: var(--connector-width);
+    background: var(--color-connector);
+  }
+}
