@@ -26,7 +26,7 @@ describe('MachineDetail', () => {
     expect(section?.getAttribute('aria-labelledby')).toBe(heading?.id);
     expect(host.querySelector('.machine-icon')?.textContent?.trim()).toBe('b');
     expect(host.querySelector('.facts')?.textContent).toContain('Attacher');
-    expect(host.querySelector('.facts')?.textContent).toContain('Alarm');
+    expect(host.querySelector('.state-label')?.textContent?.trim()).toBe('Alarm');
     expect(host.querySelector<HTMLElement>('.head')?.dataset['state']).toBe('alarm');
   });
 
@@ -36,7 +36,7 @@ describe('MachineDetail', () => {
     await fixture.whenStable();
     const host = fixture.nativeElement as HTMLElement;
     expect(host.querySelector<HTMLElement>('.head')?.dataset['state']).toBe('running');
-    expect(host.querySelector('.facts')?.textContent).toContain('Running');
+    expect(host.querySelector('.state-label')?.textContent?.trim()).toBe('Running');
   });
 
   it('follows a change of the route id', async () => {
@@ -46,6 +46,11 @@ describe('MachineDetail', () => {
     expect((fixture.nativeElement as HTMLElement).querySelector('h2')?.textContent).toContain(
       'Scale',
     );
+  });
+
+  it('announces the state once', async () => {
+    const host = (await render()).nativeElement as HTMLElement;
+    expect(host.textContent?.match(/Alarm/g)).toHaveLength(1);
   });
 
   it('has an accessible link back to the overview', async () => {

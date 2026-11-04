@@ -47,6 +47,15 @@ describe('routes', () => {
     expect(url()).toBe('/machines/scale');
   });
 
+  it('redirects an unknown machine after waiting for the load', async () => {
+    fake.loading.set(true);
+    const harness = await RouterTestingHarness.create();
+    const navigation = harness.navigateByUrl('/machines/unknown');
+    fake.loading.set(false);
+    await navigation;
+    expect(url()).toBe('/');
+  });
+
   it('redirects any other path to the overview', async () => {
     await RouterTestingHarness.create('/somewhere/else');
     expect(url()).toBe('/');

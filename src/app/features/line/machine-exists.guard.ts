@@ -1,7 +1,5 @@
-import { inject } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { CanActivateFn, Router } from '@angular/router';
-import { filter, map, take } from 'rxjs';
+import { effect, EnvironmentInjector, inject } from '@angular/core';
+import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { MachineStore } from '../../core/machine-store';
 
 /**
@@ -11,11 +9,26 @@ import { MachineStore } from '../../core/machine-store';
 export const machineExistsGuard: CanActivateFn = (route) => {
   const store = inject(MachineStore);
   const router = inject(Router);
+  const injector = inject(EnvironmentInjector);
   const id = route.paramMap.get('id');
 
-  return toObservable(store.loading).pipe(
-    filter((loading) => !loading),
-    take(1),
-    map(() => store.machines().some((machine) => machine.id === id) || router.createUrlTree([''])),
-  );
+  const decide = (): boolean | UrlTree =>
+    store.machines().some((machine) => machine.id === id) || router.createUrlTree(['']);
+
+  if (!store.loading()) {
+    return decide();
+  }
+  // Not toObservable(): its effect lives as long as the root injector, one per navigation.
+  // This effect destroys itself as soon as loading has finished.
+  return new Promise((resolve) => {
+    const watcher = effect(
+      () => {
+        if (!store.loading()) {
+          watcher.destroy();
+          resolve(decide());
+        }
+      },
+      { injector },
+    );
+  });
 };
