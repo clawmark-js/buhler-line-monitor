@@ -10,9 +10,8 @@ Known issues and deliberate deviations, kept out of scope to stay true to the re
 - [ ] Icon contrast: the green running icon on grey (1.84:1) and the white warning icon on orange
       (2.17:1) miss the WCAG 3:1 minimum for non-text graphics. The state is still announced to
       assistive technologies, so it is not conveyed by color alone.
-- [ ] Keyboard scrolling of the navigation bar and line overview: at narrow widths (e.g. 375 px)
-      both scroll sideways, but their items cannot take focus yet. Resolved in Step 7, when items become links
-      (focus scrolls them into view); verify in the Step 8 layout check.
+- [x] Keyboard scrolling of the navigation bar and line overview: resolved in Step 7, items are
+      links now and focusing one scrolls it into view. Verify in the Step 8 layout check.
 
 ## Layout
 

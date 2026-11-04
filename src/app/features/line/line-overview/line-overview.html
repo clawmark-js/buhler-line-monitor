@@ -2,7 +2,14 @@
   <ol class="line">
     @for (machine of machines(); track machine.id) {
       <li class="step">
-        <app-machine-tile [machine]="machine" />
+        <a
+          class="tile-link"
+          [routerLink]="['/machines', machine.id]"
+          [attr.aria-label]="label(machine)"
+        >
+          <!-- The link's aria-label names machine and state. -->
+          <app-machine-tile [machine]="machine" aria-hidden="true" />
+        </a>
       </li>
     }
   </ol>

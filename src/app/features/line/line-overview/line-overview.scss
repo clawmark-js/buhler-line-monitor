@@ -40,3 +40,9 @@
     background: var(--color-connector);
   }
 }
+
+.tile-link {
+  display: flex;
+  color: inherit;
+  text-decoration: none;
+}

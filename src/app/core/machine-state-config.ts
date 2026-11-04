@@ -1,4 +1,4 @@
-import { MachineState } from './models/machine';
+import { Machine, MachineState } from './models/machine';
 
 export interface MachineStatePresentation {
   /** Material Symbols icon name. */
@@ -22,3 +22,8 @@ export const MACHINE_STATE_CONFIG: Record<MachineState, MachineStatePresentation
   alarm: { icon: 'error', filled: false, label: 'Alarm' },
   warning: { icon: 'warning', filled: true, label: 'Warning' },
 };
+
+/** Accessible name of a machine with its current state, e.g. "Packer – Warning". */
+export function machineLabel(machine: Pick<Machine, 'shortName' | 'state'>): string {
+  return `${machine.shortName} – ${MACHINE_STATE_CONFIG[machine.state].label}`;
+}
