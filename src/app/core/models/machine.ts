@@ -13,4 +13,6 @@ export interface Machine {
   state: MachineState;
   /** Position in the production line, starting at 1. */
   order: number;
+  /** Short fault description while in alarm or warning, e.g. "Bag jam at clamp 2". */
+  message?: string;
 }

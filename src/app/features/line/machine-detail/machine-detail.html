@@ -17,6 +17,12 @@
         <dt>Short name</dt>
         <dd>{{ machine.shortName }}</dd>
       </div>
+      @if (machine.message; as message) {
+        <div class="fact">
+          <dt>Message</dt>
+          <dd class="message">{{ message }}</dd>
+        </div>
+      }
     </dl>
   </section>
 }

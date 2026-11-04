@@ -20,7 +20,8 @@ function isMachine(value: unknown): value is Machine {
     isNonEmptyString(value['shortName']) &&
     isNonEmptyString(value['icon']) &&
     isMachineState(value['state']) &&
-    typeof value['order'] === 'number'
+    typeof value['order'] === 'number' &&
+    (value['message'] === undefined || isNonEmptyString(value['message']))
   );
 }
 
