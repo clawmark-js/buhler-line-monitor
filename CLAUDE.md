@@ -35,7 +35,11 @@ follow it unless `PLAN.md` says otherwise.
 - Strict TypeScript, no `any`. Domain types live in `src/app/core/models`.
 - SCSS. Colors, spacing and sizes are CSS custom properties defined in `src/styles/_tokens.scss`.
   No UI component library.
-- Icons: Material Symbols (Google Fonts), rendered through a single `IconComponent`.
+- Icons: Material Symbols Outlined (Google Fonts), rendered through the shared `Icon` component
+  (`app-icon`). The font link in `src/index.html` downloads only the icons listed in `icon_names`;
+  add every new icon there (alphabetical order) or it renders as plain text.
+- File and class names follow the Angular 20+ style guide: `header.ts` / `Header`, no
+  `.component` suffix.
 
 ## Project structure
 

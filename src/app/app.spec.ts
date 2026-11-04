@@ -15,10 +15,11 @@ describe('App', () => {
     expect(fixture.componentInstance).toBeTruthy();
   });
 
-  it('should render the router outlet', async () => {
+  it('should render the header above the routed content', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('router-outlet')).not.toBeNull();
+    expect(compiled.querySelector('app-header')).not.toBeNull();
+    expect(compiled.querySelector('main router-outlet')).not.toBeNull();
   });
 });
