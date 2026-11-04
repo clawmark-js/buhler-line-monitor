@@ -51,7 +51,7 @@ public/data/       mock data (machines.json, user.json)
 
 - **Data flow**: `MachineStore` loads `public/data/machines.json` with `httpResource`. The
   `parse` option validates the response and sorts it by line order once. Live state changes go
-  through `updateState(id, state)`. They are kept apart from the loaded data, so an update that
+  through `updateState(id, state, message?)`; a live update replaces the loaded fault message. They are kept apart from the loaded data, so an update that
   arrives before loading finishes is not lost. Components only read the store's signals.
 - **Routing**: `/` shows the line overview; `/machines/:id` shows the machine detail instead.
   The id is bound to the component as an input. `machineExistsGuard` waits for the machines to
@@ -85,7 +85,7 @@ public/data/       mock data (machines.json, user.json)
 
 ## Testing
 
-77 unit and component tests (Vitest, TestBed) cover:
+Unit and component tests (Vitest, TestBed) cover:
 
 - **Data:** the stores (loading, success, error, live and early updates) and the response
   validation. The mock data is checked against the model.
