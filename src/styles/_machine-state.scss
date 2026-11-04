@@ -1,0 +1,34 @@
+// Colors of each machine state, shared by every view of a machine (navigation bar, tiles, detail).
+// Include `colors` in the rule of an element carrying `data-state`; it sets:
+//   --state-bg   background of the element
+//   --state-fg   text color on that background
+//   --state-icon color of the state icon (read by MachineStateBadge)
+@use 'sass:map';
+
+$states: (
+  running: (
+    bg: var(--color-surface),
+    fg: var(--color-text),
+    icon: var(--color-running),
+  ),
+  alarm: (
+    bg: var(--color-alarm),
+    fg: var(--color-text-inverse),
+    icon: var(--color-text-inverse),
+  ),
+  warning: (
+    bg: var(--color-warning),
+    fg: var(--color-text-inverse),
+    icon: var(--color-text-inverse),
+  ),
+);
+
+@mixin colors {
+  @each $state, $colors in $states {
+    &[data-state='#{$state}'] {
+      --state-bg: #{map.get($colors, bg)};
+      --state-fg: #{map.get($colors, fg)};
+      --state-icon: #{map.get($colors, icon)};
+    }
+  }
+}

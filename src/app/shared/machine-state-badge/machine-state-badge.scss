@@ -1,8 +1,5 @@
 :host {
   display: inline-flex;
-  color: var(--color-text-inverse);
-}
-
-:host([data-state='running']) {
-  color: var(--color-running);
+  // Set by the surrounding element through the machine-state `colors` mixin.
+  color: var(--state-icon, currentColor);
 }

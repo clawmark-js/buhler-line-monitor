@@ -16,6 +16,5 @@ describe('MachineStateBadge', () => {
     expect(host.textContent?.trim()).toBe(MACHINE_STATE_CONFIG[state].icon);
     expect(host.getAttribute('role')).toBe('img');
     expect(host.getAttribute('aria-label')).toBe(MACHINE_STATE_CONFIG[state].label);
-    expect(host.dataset['state']).toBe(state);
   });
 });

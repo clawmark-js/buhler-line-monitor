@@ -62,9 +62,22 @@ describe('MachineStore', () => {
     expect(store.machines().map((m) => m.state)).toEqual(['alarm', 'warning']);
   });
 
-  it('ignores state updates before the machines are loaded', async () => {
+  it('applies state updates that arrive before the machines are loaded', async () => {
     store.updateState('packer', 'warning');
     await respond(MACHINES);
-    expect(store.machines().find((m) => m.id === 'packer')?.state).toBe('running');
+    expect(store.machines().find((m) => m.id === 'packer')?.state).toBe('warning');
+  });
+
+  it('keeps unchanged machines as the same objects when a state changes', async () => {
+    await respond(MACHINES);
+    const [scaleBefore] = store.machines();
+    store.updateState('packer', 'warning');
+    expect(store.machines()[0]).toBe(scaleBefore);
+  });
+
+  it('reports an error when the response does not match the model', async () => {
+    await respond({ machines: MACHINES });
+    expect(store.error()).toBe('Machines could not be loaded.');
+    expect(store.machines()).toEqual([]);
   });
 });

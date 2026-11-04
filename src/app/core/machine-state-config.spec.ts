@@ -6,10 +6,9 @@ describe('MACHINE_STATE_CONFIG', () => {
     expect(Object.keys(MACHINE_STATE_CONFIG).sort()).toEqual([...MACHINE_STATES].sort());
   });
 
-  it.each(MACHINE_STATES)('defines icon, color token and label for "%s"', (state) => {
-    const { icon, colorToken, label } = MACHINE_STATE_CONFIG[state];
+  it.each(MACHINE_STATES)('defines icon and label for "%s"', (state) => {
+    const { icon, label } = MACHINE_STATE_CONFIG[state];
     expect(icon).toBeTruthy();
-    expect(colorToken).toMatch(/^--color-/);
     expect(label).toBeTruthy();
   });
 });

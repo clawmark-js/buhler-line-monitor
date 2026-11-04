@@ -12,7 +12,6 @@ import { Icon } from '../icon/icon';
   host: {
     role: 'img',
     '[attr.aria-label]': 'presentation().label',
-    '[attr.data-state]': 'state()',
   },
 })
 export class MachineStateBadge {
