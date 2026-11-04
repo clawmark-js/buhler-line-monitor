@@ -12,6 +12,7 @@ export const TEST_MACHINES: Machine[] = [
     icon: 'b',
     state: 'alarm',
     order: 2,
+    message: 'Bag jam at clamp 2',
   },
   {
     id: 'bag-closer',
@@ -20,6 +21,7 @@ export const TEST_MACHINES: Machine[] = [
     icon: 'c',
     state: 'warning',
     order: 3,
+    message: 'Sealing temperature low',
   },
 ];
 

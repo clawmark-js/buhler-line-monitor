@@ -48,6 +48,17 @@ describe('MachineDetail', () => {
     );
   });
 
+  it('shows the fault message of a machine in alarm', async () => {
+    const host = (await render()).nativeElement as HTMLElement;
+    expect(host.querySelector('.message')?.textContent?.trim()).toBe('Bag jam at clamp 2');
+  });
+
+  it('shows no message row for a running machine', async () => {
+    const host = (await render('scale')).nativeElement as HTMLElement;
+    expect(host.querySelector('.message')).toBeNull();
+    expect(host.querySelector('.facts')?.textContent).not.toContain('Message');
+  });
+
   it('announces the state once', async () => {
     const host = (await render()).nativeElement as HTMLElement;
     expect(host.textContent?.match(/Alarm/g)).toHaveLength(1);

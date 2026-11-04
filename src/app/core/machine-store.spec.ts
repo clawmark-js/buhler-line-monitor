@@ -7,7 +7,15 @@ import { Machine } from './models/machine';
 
 const MACHINES: Machine[] = [
   { id: 'packer', name: 'Packer', shortName: 'Packer', icon: 'a', state: 'running', order: 2 },
-  { id: 'scale', name: 'Scale', shortName: 'Scale', icon: 'b', state: 'alarm', order: 1 },
+  {
+    id: 'scale',
+    name: 'Scale',
+    shortName: 'Scale',
+    icon: 'b',
+    state: 'alarm',
+    order: 1,
+    message: 'Overload',
+  },
 ];
 
 const URL = 'data/machines.json';
@@ -73,6 +81,26 @@ describe('MachineStore', () => {
     const [scaleBefore] = store.machines();
     store.updateState('packer', 'warning');
     expect(store.machines()[0]).toBe(scaleBefore);
+  });
+
+  it('drops the loaded fault message when a live update changes the state', async () => {
+    await respond(MACHINES);
+    store.updateState('scale', 'running');
+    const scale = store.machines().find((m) => m.id === 'scale');
+    expect(scale?.state).toBe('running');
+    expect(scale?.message).toBeUndefined();
+  });
+
+  it('shows the message carried by a live update', async () => {
+    await respond(MACHINES);
+    store.updateState('packer', 'warning', 'Film roll almost empty');
+    expect(store.machines().find((m) => m.id === 'packer')?.message).toBe('Film roll almost empty');
+  });
+
+  it('replaces the message when the fault changes but the state stays', async () => {
+    await respond(MACHINES);
+    store.updateState('scale', 'alarm', 'Load cell disconnected');
+    expect(store.machines().find((m) => m.id === 'scale')?.message).toBe('Load cell disconnected');
   });
 
   it('reports an error when the response does not match the model', async () => {

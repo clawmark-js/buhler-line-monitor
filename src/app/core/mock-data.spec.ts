@@ -15,6 +15,12 @@ describe('mock data', () => {
       expect(data.map((m) => m.order)).toEqual([1, 2, 3, 4]);
     });
 
+    it('has a fault message exactly for machines in alarm or warning', () => {
+      for (const machine of data) {
+        expect(Boolean(machine.message)).toBe(machine.state !== 'running');
+      }
+    });
+
     it('has unique ids', () => {
       expect(new Set(data.map((m) => m.id)).size).toBe(data.length);
     });

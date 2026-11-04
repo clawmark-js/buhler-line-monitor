@@ -16,6 +16,12 @@ describe('parseMachines', () => {
     expect(parseMachines([PACKER, SCALE]).map((m) => m.id)).toEqual(['scale', 'packer']);
   });
 
+  it('accepts an optional fault message', () => {
+    const jammed = { ...PACKER, state: 'alarm', message: 'Bag jam' };
+    expect(parseMachines([SCALE, jammed])[1].message).toBe('Bag jam');
+    expect(parseMachines([SCALE])[0].message).toBeUndefined();
+  });
+
   it('does not mutate the response', () => {
     const response = [PACKER, SCALE];
     parseMachines(response);
@@ -35,6 +41,8 @@ describe('parseMachines', () => {
     ['empty short name', { ...PACKER, shortName: '' }],
     ['non-numeric order', { ...PACKER, order: '2' }],
     ['non-object item', 'packer'],
+    ['non-string message', { ...PACKER, message: 42 }],
+    ['empty message', { ...PACKER, message: '' }],
   ])('rejects a machine with %s', (_, machine) => {
     expect(() => parseMachines([SCALE, machine])).toThrow('index 1');
   });

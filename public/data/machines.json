@@ -13,7 +13,8 @@
     "shortName": "Attacher",
     "icon": "chrome_reader_mode",
     "state": "alarm",
-    "order": 2
+    "order": 2,
+    "message": "Bag jam at clamp 2"
   },
   {
     "id": "packer",
@@ -29,6 +30,7 @@
     "shortName": "Closer",
     "icon": "grid_on",
     "state": "warning",
-    "order": 4
+    "order": 4,
+    "message": "Sealing temperature below set point"
   }
 ]
