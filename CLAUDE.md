@@ -11,6 +11,7 @@ The reference mockup is `docs/mockup.png`. Visual decisions (layout, colors, sho
 follow it unless `PLAN.md` says otherwise.
 
 ## Workflow
+
 - The implementation is split into steps in `PLAN.md` (a local working plan, not versioned; it may
   change during the project). Work on one step at a time and do not start the next one unless
   asked.
@@ -23,12 +24,13 @@ follow it unless `PLAN.md` says otherwise.
 - When unsure about a design decision, ask instead of guessing.
 
 ## Tech stack and conventions
+
 - Angular 22, standalone components only, no NgModules.
 - Signals for state (`signal`, `computed`, `input()`, `output()`). RxJS only where it is the better
   fit (HTTP, timers, streams), bridged with `toSignal` at the edges. Avoid `effect()` for deriving
   state; prefer `computed`.
-- Built-in control flow (`@if`, `@for` with `track`), `ChangeDetectionStrategy.OnPush`,
-  zoneless change detection.
+- Built-in control flow (`@if`, `@for` with `track`), zoneless change detection. OnPush is the
+  default in Angular 22, so do not set `changeDetection` explicitly.
 - `inject()` instead of constructor injection.
 - Strict TypeScript, no `any`. Domain types live in `src/app/core/models`.
 - SCSS. Colors, spacing and sizes are CSS custom properties defined in `src/styles/_tokens.scss`.
@@ -36,6 +38,7 @@ follow it unless `PLAN.md` says otherwise.
 - Icons: Material Symbols (Google Fonts), rendered through a single `IconComponent`.
 
 ## Project structure
+
 - `src/app/core` – models, state configuration, store, status data sources
 - `src/app/layout` – app shell and header
 - `src/app/features/line` – navigation bar, line overview, machine tile, machine detail
@@ -45,10 +48,12 @@ follow it unless `PLAN.md` says otherwise.
 - `e2e/` – Playwright end-to-end tests
 
 ## Testing
+
 - Unit and component tests with Vitest, placed next to the source as `*.spec.ts`.
 - End-to-end tests with Playwright in `e2e/`, deterministic (no reliance on random state changes).
 
 ## Accessibility
+
 - State is never conveyed by color alone: every machine tile and navigation item exposes its name
   and state to assistive technologies.
 - All interactive elements are keyboard accessible with a visible focus indicator.
@@ -56,5 +61,6 @@ follow it unless `PLAN.md` says otherwise.
   WCAG AA contrast. Such deviations are recorded in `TODO.md` instead of being fixed.
 
 ## TODO.md
+
 Known issues and deliberate deviations that are out of scope for now. When you notice one, add it
 there rather than fixing it outside the current step.
