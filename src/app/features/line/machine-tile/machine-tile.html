@@ -1,3 +1,4 @@
-<app-machine-state-badge class="badge" [state]="machine().state" />
 <app-icon class="machine-icon" [name]="machine().icon" />
 <span class="name">{{ machine().shortName }}</span>
+<!-- After the name so screen readers announce "Packer, Warning", as in the navigation bar. -->
+<app-machine-state-badge class="badge" [state]="machine().state" />

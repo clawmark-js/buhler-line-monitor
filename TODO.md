@@ -19,3 +19,6 @@ Known issues and deliberate deviations, kept out of scope to stay true to the re
 - [ ] Header at narrow widths (375 px): the clock wraps and the user name is pushed off-screen.
       The mockup only covers desktop; handle in the Step 8 layout check (e.g. hide the user name
       or shrink the logo below a breakpoint).
+- [ ] Loading and error states: while `machines.json` loads, or if it fails, the navigation bar
+      and the "Production line" region render empty. `MachineStore` already exposes `loading`
+      and `error`; show them in the UI in Step 8.
